@@ -53,7 +53,7 @@
 								<div class="c-immo-card__location">
 									<img src="{{url('img/icons/location.svg')}}" alt="">
 									<p>
-										{{house.location}}
+										{{house.location}} {{house.city.one().title}}
 									</p>
 
 								</div>
@@ -116,7 +116,7 @@
 							{% for citie in cities %}
 							<li class=" c-locations__list-item pb-2">
 								<a class="c-locations__link " href="{{citie.url}}">
-									{{ citie.title }}
+									{{ citie.title }} 
 								</a>
 							</li>
 							{% endfor %}

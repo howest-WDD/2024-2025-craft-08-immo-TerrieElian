@@ -4,21 +4,19 @@ instructions: null
 name: City
 searchable: false
 settings:
-  maxLength: 255
-  showLabelField: false
-  showTargetField: false
-  typeSettings:
-    __assoc__:
-      -
-        - entry
-        -
-          __assoc__:
-            -
-              - sources
-              -
-                - 'section:bd5f5fdc-b8d5-422c-a7b7-5451b7f10ccd' # Locations
-  types:
-    - entry
+  allowSelfRelations: false
+  branchLimit: null
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: null
+  showCardsInGrid: false
+  showSiteMenu: true
+  sources:
+    - 'section:bd5f5fdc-b8d5-422c-a7b7-5451b7f10ccd' # Locations
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\Link
+type: craft\fields\Entries
