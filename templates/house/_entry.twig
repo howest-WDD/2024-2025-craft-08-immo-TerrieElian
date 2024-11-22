@@ -52,9 +52,9 @@
 				<div
 					class="d-flex flex-row gap-2">
 					<!-- todo: voeg de category toe zorg dat deze ook linkt naar het overzicht van deze specifieke category -->
-
+						{% set category = craft.entries.section('categories').relatedTo(entry).one() %}
 					<p>
-						<a class="c-detail__tag" href="#">Apartment</a>
+						<a class="c-detail__tag" href="{{url(category.uri)}}">{{category.title}}</a>
 					</p>
 					<!-- Zorg dat de kleur van de tag veranderd d.m.v .c-detail__tag--rent toe te passen wanneer iets “for rent” staat. -->
 					<p>
@@ -66,6 +66,7 @@
 				</div>
 
 				<div class="c-detail__location">
+				{% set city = craft.entries.section('locations').relatedTo(entry).one() %}
 					<img src="{{url('img/icons/location.svg')}}" alt="">
 					<p>
 						{{entry.location}},
@@ -155,133 +156,72 @@
 		<div class="row g-3 justify-content-center c-section__content">
 			<!-- todo: Zorg dat de cards hier enkel huizen toont die gerelateerd zijn aan de category van de detail pagina. -->
 			<!-- immo card -->
-				<div class="col-12 col-sm-6 col-lg-4 "> <a href="#" class="c-immo-card">
-					<div class="c-immo-card__imgcontainer">
-						<img src="{{url('img/houseOne.jpeg')}}" alt="" class="c-immo-card__img">
-						<div class="c-immo-card__tag c-immo-card__tag--sale">
-							<p>For sale</p>
-						</div>
+				{% set relatedHouses = craft.entries()
+				.section('house')
+				.relatedTo(category)
+				.all() %}
 
+			{% for house in relatedHouses %}
+				<div
+						class="col-12 col-sm-6 col-lg-4 ">
+						<!-- todo: link de card met de detail page  -->
+						<a href="{{url(house.uri)}}" class="c-immo-card">
+							<div class="c-immo-card__imgcontainer">
+								<img
+								src={{house.cover.one().url()}} alt="" class="c-immo-card__img">
+								<!-- todo: Zorg dat de kleur veranderd dmv c-immo-card__tag--rent toe te passen wanneer iets for rent staat  -->
+								<div class="c-immo-card__tag {% if house.state == 'rent' %}c-immo-card__tag--rent{% else %}c-immo-card__tag--sale{% endif %}">
+									<p>For {{house.state}}</p>
+								</div>
+
+							</div>
+							<div class="c-immo-card__infocontainer">
+								<div class="c-immo-card__heading">
+									<h3 class="c-immo-card__title">{{house.title}}</h3>
+									<!-- todo: roep hier het amount op -->
+									<p class="c-immo-card__price">{{ house.price|money }}</p>
+								</div>
+								<div class="c-immo-card__location">
+									<img src="{{url('img/icons/location.svg')}}" alt="">
+									<p>
+										{{house.location}} {{house.city.one().title}}
+									</p>
+
+								</div>
+
+								<!-- todo: loop hier over de waarder van de details van het pand -->
+								<div class="c-immo-card__details">
+									<div class="c-immo-card__icons">
+										<img src="{{url('img/icons/bed.svg')}}" alt="">
+										<p>
+										{% for house in house.details %}
+											{{house.bedrooms}} beds
+
+											{% endfor %}
+										</p>
+									</div>
+									<div class="c-immo-card__icons">
+										<img src="{{url('img/icons/bath.svg')}}" alt="">
+										<p>{% for house in house.details %}
+											{{house.bathrooms}} beds
+
+											{% endfor %} baths
+										</p>
+									</div>
+									<div class="c-immo-card__icons">
+										<img src="{{url('img/icons/sqf.svg')}}" alt="">
+										<p>{% for house in house.details %}
+											{{house.size}} beds
+
+											{% endfor %} m²
+										</p>
+									</div>
+								</div>
+
+							</div>
+						</a>
 					</div>
-					<div class="c-immo-card__infocontainer">
-						<div class="c-immo-card__heading">
-							<h3 class="c-immo-card__title">Skyper Pool Apartment</h3>
-							<p class="c-immo-card__price">$280.000</p>
-						</div>
-						<div class="c-immo-card__location">
-							<img src="{{url('img/icons/location.svg')}}" alt="">
-							<p>
-								1020 Bloomingdale Ave
-							</p>
-
-						</div>
-						<div class="c-immo-card__details">
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bed.svg')}}" alt="">
-								<p>4 beds
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bath.svg')}}" alt="">
-								<p>2 baths
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/sqf.svg')}}" alt="">
-								<p>70m²
-								</p>
-							</div>
-						</div>
-
-					</div>
-				</a>
-			</div>
-			<!-- immo card -->
-			<div class="col-12 col-sm-6 col-lg-4">
-				<a href="#" class="c-immo-card">
-					<div class="c-immo-card__imgcontainer">
-						<img src="{{url('img/houseOne.jpeg')}}" alt="" class="c-immo-card__img">
-						<div class="c-immo-card__tag c-immo-card__tag--sale">
-							<p>For sale</p>
-						</div>
-
-					</div>
-					<div class="c-immo-card__infocontainer">
-						<div class="c-immo-card__heading">
-							<h3 class="c-immo-card__title">Skyper Pool Apartment</h3>
-							<p class="c-immo-card__price">$280.000</p>
-						</div>
-						<div class="c-immo-card__location">
-							<img src="{{url('img/icons/location.svg')}}" alt="">
-							<p>
-								1020 Bloomingdale Ave
-							</p>
-
-						</div>
-						<div class="c-immo-card__details">
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bed.svg')}}" alt="">
-								<p>4 beds
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bath.svg')}}" alt="">
-								<p>2 baths
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/sqf.svg')}}" alt="">
-								<p>70m²
-								</p>
-							</div>
-						</div>
-
-					</div>
-				</a>
-			</div>
-			<!-- immo card -->
-			<div class="col-12 col-sm-6 col-lg-4">
-				<a href="#" class="c-immo-card">
-					<div class="c-immo-card__imgcontainer">
-						<img src="{{url('img/houseOne.jpeg')}}" alt="" class="c-immo-card__img">
-						<div class="c-immo-card__tag c-immo-card__tag--rent">
-							<p>For rent</p>
-						</div>
-
-					</div>
-					<div class="c-immo-card__infocontainer">
-						<div class="c-immo-card__heading">
-							<h3 class="c-immo-card__title">Skyper Pool Apartment</h3>
-							<p class="c-immo-card__price">$280.000</p>
-						</div>
-						<div class="c-immo-card__location">
-							<img src="{{url('img/icons/location.svg')}}" alt="">
-							<p>
-								1020 Bloomingdale Ave
-							</p>
-
-						</div>
-						<div class="c-immo-card__details">
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bed.svg')}}" alt="">
-								<p>4 beds
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/bath.svg')}}" alt="">
-								<p>2 baths
-								</p>
-							</div>
-							<div class="c-immo-card__icons">
-								<img src="{{url('img/icons/sqf.svg')}}" alt="">
-								<p>70m²
-								</p>
-							</div>
-						</div>
-
-					</div>
-				</a>
-			</div>
+			{% endfor %}
 
 		</div>
 
