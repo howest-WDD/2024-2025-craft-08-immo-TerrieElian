@@ -69,8 +69,8 @@
 					<img src="{{url('img/icons/location.svg')}}" alt="">
 					<p>
 						{{entry.location}},
-						<a class="u-underline" href="#">
-							hier komt de stad</a>
+						<a class="u-underline" href="{{url(entry.city.one().uri)}}">
+							{{entry.city.one().title}}</a>
 					</p>
 
 				</div>
