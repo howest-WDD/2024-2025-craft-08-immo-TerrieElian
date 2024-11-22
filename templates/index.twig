@@ -30,11 +30,29 @@
 
 		<div class="container-fluid c-section ">
 			<div class="c-categories">
-				<h2 class="c-section__title">Featured Categories</h2>
-				<p class="c-section__subtitle">What type of house are you looking for?</p>
 
 				<!-- todo: plak hier de categories vanuit templates/categories/index.twig -->
-				<div class="row g-3 justify-content-center c-section__content">
+				{% set allCategories = craft.entries.section('categories').level(1).one() %}
+				<h2 class="c-section__title">{{allCategories.title}}</h2>
+				<p class="c-section__subtitle">{{allCategories.subtext}}</p>
+				{% set categories = allCategories.children.all() %}
+
+				<div
+					class="row g-3 justify-content-center c-section__content">
+					{% for category in categories %}
+					<a href="{{ category.url }}" class="col-12 col-sm-3 col-lg-2 c-categories__card">
+						<div class="c-categories__info">
+							<h3 class="c-categories__title">{{ category.title }}</h3>
+							<p class="">1 properties</p>
+						</div>
+						<div class="c-categories__imgcontainer">
+							<img src="{{ category.cover.one().url }}" alt="{{ category.title }}" class="c-categories__img">
+						</div>
+					</a>
+				{% endfor %}
+					
+				</div>
+				{# <div class="row g-3 justify-content-center c-section__content">
 					<a href="#" class="c-categories__card col-12 col-sm-3 col-lg-2">
 						<div class="c-categories__info">
 							<h3 class="c-categories__title">Town House</h3>
@@ -74,7 +92,7 @@
 							<img src="img/office.jpeg" alt="" class="c-categories__img">
 						</div>
 					</a>
-				</div>
+				</div> #}
 			</div>
 
 		</div>
