@@ -1,0 +1,24 @@
+columnSuffix: null
+handle: city
+instructions: null
+name: City
+searchable: false
+settings:
+  maxLength: 255
+  showLabelField: false
+  showTargetField: false
+  typeSettings:
+    __assoc__:
+      -
+        - entry
+        -
+          __assoc__:
+            -
+              - sources
+              -
+                - 'section:bd5f5fdc-b8d5-422c-a7b7-5451b7f10ccd' # Locations
+  types:
+    - entry
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Link

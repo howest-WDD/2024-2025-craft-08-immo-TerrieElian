@@ -6,19 +6,32 @@
 		<!-- locations -->
 		<div class="container c-section">
 		<!-- todo: Roep All locations op en pas de title en subtitle aan.  -->
-			<h2 class="c-section__title">All Locations</h2>
-			<p class="c-section__subtitle">Where do you want to live?</p>
+		{% set allLocations = craft.entries.section('locations').level(1).one() %}
+			<h2 class="c-section__title">{{ allLocations.title}}</h2>
+			<p class="c-section__subtitle">{{ allLocations.subtext }}</p>
+			{# <h2 class="c-section__title">All Locations</h2>
+			<p class="c-section__subtitle">Where do you want to live?</p> #}
 
 			<div class="row justify-content-center c-section__content c-locations text-center">
 				<!-- Roep alle children van All Locations op en loop ze over de lijst. Dit zijn de titels per kolom. Roep dan hiervan ook nog eens de children van op en laat deze de lijst vullen. -->
-				<div class="col-12 col-sm-3 col-lg-2">
-					<ul class="c-locations__list">
-						<li class=" c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class=" c-locations__list-item pb-2">
+				{% set region = allLocations.children.all() %}
+				
+				{% for regio in region %}
+					<div class="col-12 col-sm-3 col-lg-2">
+						<ul class="c-locations__list">
+							<h3>{{regio.title}}</h3>
+							{% set cities = regio.children.all() %}
+							{% for citie in cities %}
+							<li class=" c-locations__list-item pb-2">
+								<a class="c-locations__link " href="{{citie.url}}">
+									{{ citie.title }}
+								</a>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endfor %}
+						{# <li class=" c-locations__list-item pb-2">
 
 							<a class="c-locations__link " href="#">
 								Kortrijk
@@ -34,10 +47,10 @@
 							<a class="c-locations__link " href="#">
 								Lokeren
 							</a>
-						</li>
+						</li> #}
 					</ul>
 				</div>
-				<div class="col-12 col-sm-3 col-lg-2">
+				{# <div class="col-12 col-sm-3 col-lg-2">
 					<ul class="c-locations__list">
 						<li class="c-locations__list-item pb-2">
 							<a class="c-locations__link " href="#">
@@ -114,7 +127,7 @@
 							</a>
 						</li>
 					</ul>
-				</div>
+				</div> #}
 
 			</div>
 			<img class="col-12 mb-5" src="{{url('img/map.png')}}" alt="">
